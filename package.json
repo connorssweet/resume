@@ -7,6 +7,12 @@
     "build": "latexmk -pdf -bibtex- connor_sweet_resume.tex",
     "watch": "latexmk -pdf -bibtex- -pvc connor_sweet_resume.tex",
     "clean": "latexmk -c",
-    "clean:all": "latexmk -C"
+    "clean:all": "latexmk -C",
+    "prepare:pages": "mkdir -p site && cp connor_sweet_resume.pdf site/connor_sweet_resume.pdf",
+    "predeploy": "npm run build && npm run prepare:pages",
+    "deploy": "gh-pages -d site -b gh-pages"
+  },
+  "dependencies": {
+    "gh-pages": "^6.3.0"
   }
 }
