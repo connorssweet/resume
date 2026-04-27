@@ -5,54 +5,197 @@
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>Connor Sweet Resume</title>
   <style>
+    :root {
+      color-scheme: light;
+    }
     html, body {
-      height: 100%;
       margin: 0;
-      background: #f5f5f5;
+      min-height: 100%;
+      background: #ececec;
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
     }
     main {
-      height: 100%;
+      padding: 16px;
     }
-    iframe {
-      width: 100%;
-      height: 100%;
-      border: 0;
+    .toolbar {
+      max-width: 980px;
+      margin: 0 auto 12px;
+      display: flex;
+      gap: 10px;
+      flex-wrap: wrap;
+    }
+    .toolbar a {
+      display: inline-block;
+      text-decoration: none;
+      color: #0b3d91;
       background: #fff;
+      border: 1px solid #d5d5d5;
+      border-radius: 999px;
+      padding: 8px 14px;
+      font-size: 14px;
+      font-weight: 600;
+    }
+    .status {
+      max-width: 980px;
+      margin: 0 auto 12px;
+      font-size: 14px;
+      color: #333;
+    }
+    .status.error {
+      color: #9a0b0b;
+    }
+    .viewer {
+      max-width: 980px;
+      margin: 0 auto;
+    }
+    .page {
+      margin: 0 auto 12px;
+      background: #fff;
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.12);
+      border-radius: 4px;
+      overflow: hidden;
+    }
+    canvas {
+      display: block;
+      width: 100%;
+      height: auto;
     }
     .fallback {
-      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
-      font-size: 16px;
-      text-align: center;
-      margin: 24px;
+      max-width: 980px;
+      margin: 12px auto 0;
+      font-size: 14px;
+      color: #333;
+    }
+    @media (max-width: 700px) {
+      main {
+        padding: 10px;
+      }
+      .toolbar {
+        gap: 8px;
+      }
+      .toolbar a {
+        width: 100%;
+        text-align: center;
+      }
+      .page {
+        margin-bottom: 10px;
+      }
     }
   </style>
 </head>
 <body>
   <main>
-    <iframe
-      title="Connor Sweet Resume"
-      src="./connor_sweet_resume.pdf#view=FitH"
-    ></iframe>
+    <div class="toolbar">
+      <a href="./connor_sweet_resume.pdf" target="_blank" rel="noopener noreferrer">Open Native PDF Viewer</a>
+      <a href="./connor_sweet_resume.pdf" download>Download PDF</a>
+    </div>
+    <p id="status" class="status">Loading resume...</p>
+    <div id="viewer" class="viewer" aria-live="polite"></div>
     <noscript>
       <p class="fallback">
-        If the resume does not load inline,
-        <a href="./connor_sweet_resume.pdf">open the PDF</a>.
+        JavaScript is disabled, so inline rendering is unavailable.
+        <a href="./connor_sweet_resume.pdf">Open the PDF</a>.
       </p>
     </noscript>
   </main>
-  <script>
-    (function () {
-      var pdfUrl = "./connor_sweet_resume.pdf#view=FitH";
-      var isMobile =
-        /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent) ||
-        (window.matchMedia && window.matchMedia("(max-width: 900px)").matches);
 
-      // Many mobile browsers reject PDF objects/iframes. Opening the PDF directly
-      // uses the browser's native PDF viewer, which is much more reliable.
-      if (isMobile) {
-        window.location.replace(pdfUrl);
+  <script type="module">
+    import * as pdfjsLib from "https://cdn.jsdelivr.net/npm/pdfjs-dist@4.4.168/build/pdf.min.mjs";
+
+    pdfjsLib.GlobalWorkerOptions.workerSrc =
+      "https://cdn.jsdelivr.net/npm/pdfjs-dist@4.4.168/build/pdf.worker.min.mjs";
+
+    const PDF_URL = "./connor_sweet_resume.pdf";
+    const viewer = document.getElementById("viewer");
+    const status = document.getElementById("status");
+
+    let pdfDoc = null;
+    let renderVersion = 0;
+
+    function setStatus(message, isError = false) {
+      status.textContent = message;
+      status.classList.toggle("error", isError);
+      status.hidden = !message;
+    }
+
+    function debounce(fn, delay) {
+      let timeoutId;
+      return function () {
+        clearTimeout(timeoutId);
+        timeoutId = setTimeout(fn, delay);
+      };
+    }
+
+    async function renderDocument() {
+      if (!pdfDoc) {
+        return;
       }
-    })();
+
+      renderVersion += 1;
+      const currentRenderVersion = renderVersion;
+      viewer.innerHTML = "";
+
+      const targetWidth = Math.min(980, viewer.clientWidth || window.innerWidth - 20);
+
+      for (let pageNumber = 1; pageNumber <= pdfDoc.numPages; pageNumber += 1) {
+        if (currentRenderVersion !== renderVersion) {
+          return;
+        }
+
+        const page = await pdfDoc.getPage(pageNumber);
+        const baseViewport = page.getViewport({ scale: 1 });
+        const scale = targetWidth / baseViewport.width;
+        const viewport = page.getViewport({ scale });
+
+        const pageContainer = document.createElement("article");
+        pageContainer.className = "page";
+
+        const canvas = document.createElement("canvas");
+        const context = canvas.getContext("2d", { alpha: false });
+        const pixelRatio = window.devicePixelRatio || 1;
+
+        canvas.width = Math.floor(viewport.width * pixelRatio);
+        canvas.height = Math.floor(viewport.height * pixelRatio);
+        canvas.style.width = Math.floor(viewport.width) + "px";
+        canvas.style.height = Math.floor(viewport.height) + "px";
+
+        pageContainer.appendChild(canvas);
+        viewer.appendChild(pageContainer);
+
+        await page.render({
+          canvasContext: context,
+          viewport,
+          transform: pixelRatio === 1 ? null : [pixelRatio, 0, 0, pixelRatio, 0, 0],
+          intent: "display"
+        }).promise;
+      }
+
+      setStatus("");
+    }
+
+    async function init() {
+      try {
+        const loadingTask = pdfjsLib.getDocument(PDF_URL);
+        pdfDoc = await loadingTask.promise;
+        setStatus("Loaded " + pdfDoc.numPages + " page" + (pdfDoc.numPages === 1 ? "" : "s") + ".");
+        await renderDocument();
+      } catch (error) {
+        console.error(error);
+        setStatus("Could not render the resume inline. Use 'Open Native PDF Viewer' above.", true);
+      }
+    }
+
+    window.addEventListener(
+      "resize",
+      debounce(function () {
+        renderDocument().catch(function (error) {
+          console.error(error);
+          setStatus("Could not re-render after resize. Use 'Open Native PDF Viewer' above.", true);
+        });
+      }, 250)
+    );
+
+    init();
   </script>
 </body>
 </html>
