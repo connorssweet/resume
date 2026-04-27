@@ -4,8 +4,8 @@
   "version": "1.0.0",
   "description": "Task runner for building and watching the resume with latexmk.",
   "scripts": {
-    "build": "latexmk -pdf -bibtex- main.tex",
-    "watch": "latexmk -pdf -bibtex- -pvc main.tex",
+    "build": "latexmk -pdf -bibtex- connor_sweet_resume.tex",
+    "watch": "latexmk -pdf -bibtex- -pvc connor_sweet_resume.tex",
     "clean": "latexmk -c",
     "clean:all": "latexmk -C"
   }
