@@ -1,0 +1,69 @@
+% !TeX root = ./main.tex
+
+\cvsection{Skills}
+
+\newlength{\skilltaggap}
+\setlength{\skilltaggap}{0.5em}
+
+\newcommand{\skilltag}[1]{\cvtag{#1}\hspace{0.2em}\ignorespaces}
+\newcommand{\skilltaglist}[1]{%
+  \begingroup
+  % Keep vertical and horizontal spacing between tags consistent.
+  \setlength{\lineskiplimit}{1000pt}
+  \setlength{\lineskip}{\skilltaggap}
+  #1\par
+  \endgroup
+}
+\newcommand{\skillsubheading}[1]{{\large\bfseries\color{accent}#1}\par}
+
+\skillsubheading{Languages}
+\smallskip
+\skilltaglist{%
+  \skilltag{TypeScript}%
+  \skilltag{JavaScript}%
+  \skilltag{Python}%
+  \skilltag{C}%
+  \skilltag{C++}%
+  \skilltag{Java}%
+}
+\bigskip
+
+\skillsubheading{Frameworks \& Technologies}
+\smallskip
+\skilltaglist{%
+  \skilltag{Node.js}%
+  \skilltag{Express}%
+  \skilltag{Vue.js}%
+  \skilltag{React}%
+  \skilltag{Docker}%
+  \skilltag{AWS}%
+  \skilltag{MongoDB}%
+  \skilltag{PostgreSQL}%
+  \skilltag{Raspberry Pi}%
+  \skilltag{Babylon.js}%
+}
+\bigskip
+
+
+\cvsection{Education}
+\cvsideevent{BASc: Honours Computer Engineering - Artificial Intelligence Option}{University of Waterloo}{2017 -- 2023}{}
+\begin{itemize}
+\item Graduated with Distinction
+\item Elected Class Academic Representative
+\item Member of Waterloo Mars Rover and Robotics teams
+\end{itemize}
+
+\cvsection{Projects}
+\cvsideevent{Shapley Routing Python API}{}{}{}
+\begin{itemize}
+\item Designed and integrated an algorithm to compute exact Shapley values for ride-sharing games, facilitating fair cost allocation among participants
+\item Developed an efficient approximation algorithm for estimating Shapley values in ride-sharing scenarios with many participants
+\end{itemize}
+
+\divider
+
+\cvsideevent{Indoor GPS Navigation System}{}{}{}
+\begin{itemize}
+\item Implemented building mapping workflow in React Native, allowing users to graph points of interest based on uploaded floor plans and GPS coordinates
+\item Developed a backend server in Django connected to a PostgreSQL database to store maps of multiple buildings with several floors
+\end{itemize}

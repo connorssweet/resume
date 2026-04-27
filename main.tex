@@ -1,0 +1,124 @@
+\PassOptionsToPackage{dvipsnames}{xcolor}
+\PassOptionsToPackage{lowtilde}{url}
+\documentclass[10pt,a4paper,ragged2e, normalphoto]{altacv}
+\geometry{left=1cm,right=9cm,marginparwidth=6.8cm,marginparsep=1.2cm,top=1.25cm,bottom=1.25cm}
+\ifxetexorluatex
+  \setmainfont{Carlito}
+\else
+  \usepackage[utf8]{inputenc}
+  \usepackage[T1]{fontenc}
+  \usepackage[default]{lato}
+\fi
+\usepackage{multicol}
+\usepackage[none]{hyphenat}
+\usepackage[hidelinks]{hyperref}
+
+\definecolor{IFBlue}{HTML}{0F6688}
+\definecolor{IFDarkBlue}{HTML}{00425C}
+\definecolor{IFMediumBlue}{HTML}{17739A}
+\definecolor{IFLightBlue}{HTML}{228FBD}
+
+\definecolor{IFGreen}{HTML}{195c00}
+\definecolor{IFLightGreen}{HTML}{27880f}
+
+\definecolor{IFBlack}{HTML}{1a1a1a}
+\definecolor{IFLightBlack}{HTML}{2e2e2e}
+
+\definecolor{IFGrey}{HTML}{6D6E71}
+\definecolor{IFDarkGrey}{HTML}{231F20}
+\definecolor{IFMediumGrey}{HTML}{4D4D4F}
+\definecolor{IFLightGrey}{HTML}{808285}
+
+\colorlet{heading}{IFBlack}
+\colorlet{accent}{IFLightBlack}
+\colorlet{emphasis}{IFDarkGrey}
+\colorlet{body}{IFGrey}
+
+\renewcommand{\itemmarker}{{\small\textbullet}}
+\renewcommand{\ratingmarker}{\faCircle}
+
+\begin{document}
+\name{Connor Sweet}
+\tagline{Robotics and Full-Stack Software Developer}
+\personalinfo{
+  \email{connor.s.sweet@gmail.com}
+  \href{https://linkedin.com/in/connorsweet}{\linkedin{/connorsweet}}
+  \href{https://github.com/connorssweet}{\github{/connorssweet}}
+  \href{http://connorsweet.ca}{\homepage{connorsweet.ca}} 
+}
+\begin{fullwidth}
+\makecvheader
+\end{fullwidth}
+
+\cvsection[sidebar]{Work Experience}
+
+\cvevent{Full-Stack Software Developer}{ParkCo}{February 2026 -- Present}{}{}{}
+\begin{itemize}
+\item Built a Node.js integration with third-party parking enforcement systems using SOAP/XML workflows to synchronize transaction data across distributed services
+\item Developed a Python proof-of-concept for a Raspberry Pi-based edge controller that abstracted hardware interfaces, prioritized real-time operational tasks through queue scheduling, and improved reliability through explicit error modeling
+\item Supported cloud deployments and production infrastructure using Docker and AWS (ECS, ECR, CloudWatch), including service rollbacks, environment configuration, and release troubleshooting
+\item Improved backend reliability by implementing API fixes across payment, permissions, and bulk-upload workflows, including redesigning error handling to replace unhandled failures with structured responses
+
+\end{itemize}
+
+\divider
+
+\cvevent{Robotics Software Developer}{Lincoln Electric Automation}{July 2023 -- January 2026}{September 2022 -- December 2022 (Co-op)}{January 2022 -- April 2022 (Co-op)}{}
+\begin{itemize}
+\item Used Vue, TypeScript, fp-ts, Effect and Babylon.js to build and support a pendant-based robotic welding interface 
+\item Developed a system to author user-taught robot actions as recognizable welding instructions for Fanuc and ABB robots
+\item Wrote an algorithm to convert the location and orientation of cartesian 3D points into relative frame representations, supporting coordinated motion between a 7 axis robot and an external rotary trunnion
+\item Created a multi-pass welding solution, leveraging quaternion-based transformations to interpret user-defined torch offsets
+% \item Derived cartesian offsets relative to a path's coordinate frame using recorded positions
+% \item Wrote pure, monadic code under the functional paradigm with fp-ts and Effect to increase determinism, scalability and testability
+\item Produced a method to support remote cycle execution of welding programs across robots using an operator panel
+\item Authored a data migration workflow for persistence of programmed weld parameters into revised format to enable welding with crater fill
+
+\end{itemize}
+
+\divider
+
+\cvevent{Developer and Automation Specialist}{Mach7 Technologies}{January 2021 -- April 2021 (Co-op)}{}{}{}
+\begin{itemize}
+ \item Created Dart API allowing PostMessage requests through commands sent by external applications
+ \item Developed Javascript API to aggregate performance metrics from onscreen video in a clinical viewer
+ \item Built infrastructure for frame rate performance testing in Java
+ \begin{comment}
+ \item Maintained and updated Selenium automation suites over numerous product releases
+ \end{comment}
+ \item Implemented spine label DICOM markup manipulation through console commands in clinical viewer
+\end{itemize}
+
+\begin{comment}
+\divider
+
+\cvevent{Developer and Test Specialist}{Client Outlook Inc.}{May 2020 -- August 2020 (Co-op)}{May 2019 -- Dec 2019 (Co-op)}{}{}
+\begin{itemize}
+ \item Implemented PostMessage API functionality for creating and manipulating markups on studies through external applications
+ \item Added utilities to Maven automated test suites to perform screen layout validations
+ \item Developed an external Dart application to control an embedded clinical viewer through PostMessage requests
+ \item Implemented functionality within an internal Javascript API to notify the viewer of requests for actions from external applications
+ \item Contributed to a clinical viewer product in compliance with PureMVC framework to introduce functionality necessary for validation
+\end{itemize}
+
+\divider
+
+\cvevent{Hardware Developer}{Canadian Tire Innovations}{January 2019 -- April 2019}{}{}{}
+\begin{itemize}
+ \item Developed memory-efficient C code to optimize control over a robotic, embedded system
+ \item Modified and improved API for microcontroller to interface with robotic arm
+ \item Conceptualized and designed 3D prototype models for a series of robotic systems using SolidWorks
+\end{itemize}
+
+\divider
+
+\cvevent{Robot Process Automation Developer}{The Co-operators Group Limited}{April 2018 -- August 2018}{}{}{}
+\begin{itemize}
+ \item Created chat-bot using MS Bot Framework in Node that receives XML input to prompt questions and validate user response type
+ \item Coded and deployed web-service for the chat-bot to store user responses in MS SQL
+ \item Developed an API for the web-service to interact with MS SQL
+ \item Wrote VB.NET script to pull information from server and populate internal systems on Guidewire and Oracle frameworks
+\end{itemize}
+\end{comment}
+
+\end{document}

@@ -1,0 +1,12 @@
+{
+  "name": "resume",
+  "private": true,
+  "version": "1.0.0",
+  "description": "Task runner for building and watching the resume with latexmk.",
+  "scripts": {
+    "build": "latexmk -pdf -bibtex- main.tex",
+    "watch": "latexmk -pdf -bibtex- -pvc main.tex",
+    "clean": "latexmk -c",
+    "clean:all": "latexmk -C"
+  }
+}
