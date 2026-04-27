@@ -10,19 +10,49 @@
       margin: 0;
       background: #f5f5f5;
     }
-    object {
+    main {
+      height: 100%;
+    }
+    iframe {
       width: 100%;
       height: 100%;
       border: 0;
+      background: #fff;
+    }
+    .fallback {
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+      font-size: 16px;
+      text-align: center;
+      margin: 24px;
     }
   </style>
 </head>
 <body>
-  <object data="./connor_sweet_resume.pdf" type="application/pdf">
-    <p>
-      Unable to display PDF inline.
-      <a href="./connor_sweet_resume.pdf">Download the resume</a>.
-    </p>
-  </object>
+  <main>
+    <iframe
+      title="Connor Sweet Resume"
+      src="./connor_sweet_resume.pdf#view=FitH"
+    ></iframe>
+    <noscript>
+      <p class="fallback">
+        If the resume does not load inline,
+        <a href="./connor_sweet_resume.pdf">open the PDF</a>.
+      </p>
+    </noscript>
+  </main>
+  <script>
+    (function () {
+      var pdfUrl = "./connor_sweet_resume.pdf#view=FitH";
+      var isMobile =
+        /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent) ||
+        (window.matchMedia && window.matchMedia("(max-width: 900px)").matches);
+
+      // Many mobile browsers reject PDF objects/iframes. Opening the PDF directly
+      // uses the browser's native PDF viewer, which is much more reliable.
+      if (isMobile) {
+        window.location.replace(pdfUrl);
+      }
+    })();
+  </script>
 </body>
 </html>
